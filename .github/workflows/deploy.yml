@@ -13,6 +13,8 @@ jobs:
   deploy:
     name: Deploy To ${{ github.event.inputs.environment_name }}
     runs-on: ubuntu-latest
+    environment: 
+      name: ${{ github.event.inputs.environment_name }}
     steps:
       - name: Clone Repository (Latest)
         uses: actions/checkout@v2
