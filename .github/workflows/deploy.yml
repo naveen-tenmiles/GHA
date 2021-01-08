@@ -1,0 +1,36 @@
+name: Manual Deployment
+on: 
+  workflow_dispatch:
+    inputs:
+      environment_name:
+        description: 'Deployment Environment (test|stg|prd)'
+        default: 'test'
+        required: true
+      git_ref:
+        description: Git Ref (Optional)    
+        required: false
+jobs:
+  deploy:
+    name: Deploy To ${{ github.event.inputs.environment_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repository (Latest)
+        uses: actions/checkout@v2
+        if: github.event.inputs.git_ref == ''
+  
+      - name: Clone Repository (Custom Ref)
+        uses: actions/checkout@v2
+        if: github.event.inputs.git_ref != ''
+        with:
+          ref: ${{ github.event.inputs.git_ref }}
+          
+      - name: Set ENV variables
+        run: |
+          export GIT_COMMIT_SHORT="$(git rev-parse --short HEAD)"; export GIT_COMMIT="$(git rev-parse HEAD)"
+          export GIT_BRANCH="$(git symbolic-ref HEAD --short 2>/dev/null)"
+          if [ "$GIT_BRANCH" = "" ]; then GIT_BRANCH="$(git branch -a --contains HEAD | sed -n 2p | awk '{ printf $1 }')"; export GIT_BRANCH=${GIT_BRANCH#remotes/origin/}; fi
+          echo "GIT_BRANCH=${GIT_BRANCH}" >> $GITHUB_ENV
+          echo "GIT_COMMIT=${GIT_COMMIT}" >> $GITHUB_ENV
+          echo "GIT_COMMIT_SHORT=${GIT_COMMIT_SHORT}" >> $GITHUB_ENV
+      - name: Deploying ${{ env.GIT_COMMIT_SHORT }} to ${{ github.event.inputs.environment_name }} 
+        run: echo "Environment- ${{ github.event.inputs.environment_name }} Commit- ${GIT_COMMIT_SHORT}"
