@@ -5,10 +5,9 @@ jobs:
   review:
     name: Test the build
     runs-on: ubuntu-latest
-    environment: 
-      name: test
+    environment: test
     steps:
-      - name: Set ENV variables
+      - name: Hello testing
         run: |
           echo "------------Test---------------"
           echo "$AWS_REGION"
@@ -16,10 +15,9 @@ jobs:
   deploy:
     name: Deploy To stg
     runs-on: ubuntu-latest
-    environment: 
-      name: stg
+    environment: stg
     steps:
-      - name: Set ENV variables
+      - name: Hello Staging
         run: |
           echo "------------Deploy---------------"
           echo "$AWS_REGION"
