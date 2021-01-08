@@ -1,0 +1,25 @@
+name: Review & Deploy
+on: 
+  workflow_dispatch
+jobs:
+  deploy:
+    name: Test the build
+    runs-on: ubuntu-latest
+    environment: 
+      name: test
+    steps:
+      - name: Set ENV variables
+        run: |
+          echo "------------Test---------------"
+          echo "$AWS_REGION"
+
+  deploy:
+    name: Deploy To stg
+    runs-on: ubuntu-latest
+    environment: 
+      name: stg
+    steps:
+      - name: Set ENV variables
+        run: |
+          echo "------------Deploy---------------"
+          echo "$AWS_REGION"
