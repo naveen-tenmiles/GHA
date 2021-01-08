@@ -2,7 +2,7 @@ name: Review & Deploy
 on: 
   workflow_dispatch
 jobs:
-  deploy:
+  review:
     name: Test the build
     runs-on: ubuntu-latest
     environment: 
