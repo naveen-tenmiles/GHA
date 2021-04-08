@@ -15,6 +15,10 @@ jobs:
  deploy:
     name: Deployment
     runs-on: ubuntu-latest
+    if: |
+      (github.ref == 'refs/heads/dev' || github.head_ref == 'dev') ||
+      (github.ref == 'refs/heads/testing' || github.head_ref == 'testing') ||
+      (github.ref == 'refs/heads/main' || github.head_ref == 'main') ||
     steps:
       - name: Clone Repository (Latest)
         uses: actions/checkout@v2
@@ -33,12 +37,12 @@ jobs:
           echo "GIT_COMMIT=${GIT_COMMIT}" >> $GITHUB_ENV
           echo "GIT_COMMIT_SHORT=${GIT_COMMIT_SHORT}" >> $GITHUB_ENV
           echo "DAY=$(date +%m%d%Y)" >> $GITHUB_ENV
-          echo "DJANGO_STASH_SRC=/tmp/django-stash" >> $GITHUB_ENV
 
       - name: build
         run: |
           echo "Build process"
           echo "${{github.ref}}"
+          echo "${{github.head_ref}}"
 
       - name: Deploy to Testing
         if: (env.GIT_BRANCH == 'dev' || env.GIT_BRANCH == 'testing' || startsWith(env.GIT_BRANCH, 'feature-') || startsWith(env.GIT_BRANCH, 'hotfix-'))
