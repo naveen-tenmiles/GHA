@@ -15,10 +15,10 @@ jobs:
  deploy:
     name: Deployment
     runs-on: ubuntu-latest
-    if: |
-      (github.ref == 'refs/heads/dev' || github.head_ref == 'dev') ||
-      (github.ref == 'refs/heads/testing' || github.head_ref == 'testing') ||
-      (github.ref == 'refs/heads/main' || github.head_ref == 'main')
+#     if: |
+#       (github.ref == 'refs/heads/dev' || github.head_ref == 'dev') ||
+#       (github.ref == 'refs/heads/testing' || github.head_ref == 'testing') ||
+#       (github.ref == 'refs/heads/main' || github.head_ref == 'main')
     steps:
       - name: Clone Repository (Latest)
         uses: actions/checkout@v2
