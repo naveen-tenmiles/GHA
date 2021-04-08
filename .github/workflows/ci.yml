@@ -33,6 +33,7 @@ jobs:
       - name: build
         run: |
           echo "Build process"
+          echo "${{github.ref}}"
 
       - name: Deploy to Testing
         if: (env.GIT_BRANCH == 'testing' || startsWith(env.GIT_BRANCH, 'feature-') || startsWith(env.GIT_BRANCH, 'hotfix-'))
