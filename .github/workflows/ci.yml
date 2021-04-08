@@ -4,6 +4,7 @@ on:
     branches:
       - 'main'
       - 'testing'
+      - 'dev'
  
 jobs:
  deploy:
