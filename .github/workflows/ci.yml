@@ -1,0 +1,38 @@
+name: CI
+on:
+  pull_request:
+    branches:
+      - 'main'
+      - 'testing'
+ 
+jobs:
+    name: Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repository (Latest)
+        uses: actions/checkout@v2
+
+      - name: Extract branch name
+        if: github.event_name != 'pull_request'
+        run: echo "GIT_BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+
+      - name: Extract branch name on PR
+        if: github.event_name == 'pull_request'
+        run: echo "GIT_BRANCH=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
+
+      - name: Prepare Environment Variables
+        run: |
+          export GIT_COMMIT_SHORT="$(git rev-parse --short HEAD)"; export GIT_COMMIT="$(git rev-parse HEAD)"
+          echo "GIT_COMMIT=${GIT_COMMIT}" >> $GITHUB_ENV
+          echo "GIT_COMMIT_SHORT=${GIT_COMMIT_SHORT}" >> $GITHUB_ENV
+          echo "DAY=$(date +%m%d%Y)" >> $GITHUB_ENV
+          echo "DJANGO_STASH_SRC=/tmp/django-stash" >> $GITHUB_ENV
+
+      - name: build
+        run: |
+          echo "Build process"
+
+      - name: Deploy to Testing
+        if: (env.GIT_BRANCH == 'testing' || startsWith(env.GIT_BRANCH, 'feature-') || startsWith(env.GIT_BRANCH, 'hotfix-'))
+        run: |
+          echo "Deploying ${{ env.GIT_COMMIT_SHORT }} to Testing Environment."
