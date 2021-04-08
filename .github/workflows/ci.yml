@@ -5,6 +5,11 @@ on:
       - 'main'
       - 'testing'
       - 'dev'
+  push:
+    branches:
+      - 'main'
+      - 'testing'
+      - 'dev'
  
 jobs:
  deploy:
