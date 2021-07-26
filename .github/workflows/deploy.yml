@@ -6,6 +6,10 @@ on:
         description: 'Deployment Environment (test|stg|prd)'
         default: 'test'
         required: true
+      service:
+        description: 'Service Name (helpdesk|hfservice|hfmail|productadmin)'
+        default: 'helpdesk'
+        required: true
       git_ref:
         description: Git Ref (Optional)    
         required: false
