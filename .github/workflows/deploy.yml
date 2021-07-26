@@ -42,4 +42,17 @@ jobs:
           echo "$REGION"
           
       - name: Deploying ${{ env.GIT_COMMIT_SHORT }} to ${{ github.event.inputs.environment_name }} 
-        run: echo "Environment- ${{ github.event.inputs.environment_name }} Commit- ${GIT_COMMIT_SHORT}"
+        run: |
+          echo "Deploying ${{ env.GIT_COMMIT_SHORT }} of ${{ github.event.inputs.service }} to ${{ github.event.inputs.environment_name }} Environment."
+          if ${{ github.event.inputs.service == 'helpdesk'}}; then
+            echo 'success helpdesk'
+          fi
+          if ${{ github.event.inputs.service == 'hfservice'}}; then
+            echo 'success hfservice'
+          fi
+          if ${{ github.event.inputs.service == 'hfmail'}}; then
+            echo 'success hfmail'
+          fi
+          if ${{ github.event.inputs.service == 'productadmin'}}; then
+            echo 'success productadmin'
+          fi
